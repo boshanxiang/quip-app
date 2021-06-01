@@ -50,23 +50,38 @@
     //CREATE POST ROUTE
         router.post('/', (req, res) => {
             Post.create(req.body, (error, createdPost) => {
-                res.redirect(`/posts/${createdPost.id}`)
+                res.redirect(`/posts/ ${createdPost.id}`)
             });
         });
 
+
     //CREATE COMMENT ROUTE
         router.post('/:id', (req, res) => {
+            req.body.comment_parent_ID = req.params.id;
             console.log(req.body);
-            Post.findByIdAndUpdate
+            Post.create(req.body, (error, createdComment) => {
+                res.redirect(`/posts/${req.params.id}`);
+            });
         })
 
     //SHOW ROUTE
         router.get('/:id', (req, res) => {
+            let postComments;
+            Post.find({comment_parent_ID: `${req.params.id}`}, (error, foundComments) => {
+                postComments = foundComments;
+            })
             Post.findById(req.params.id, (error, foundPost) => {
-                res.render('show.ejs', {
-                    post: foundPost, //WILL NEED TO ADD/PASS USER OBJECT
-                    pageTitle: foundPost.title
-                });
+                    if(error) {
+                        console.log(error.message);
+                    } else {
+                        console.log(postComments);
+                        console.log('found Comments Above')
+                        res.render('show.ejs', {
+                            post: foundPost, //WILL NEED TO ADD/PASS USER OBJECT
+                            pageTitle: foundPost.title,
+                            foundComments: postComments
+                        });
+                    }
             });
         });
 

@@ -1,0 +1,19 @@
+        <!-- <table>
+            <% for(let postNum = 0; postNum < posts.length; postNum++) { 
+                let postInstance = posts[postNum]; %>
+                <tr>
+                    <div class="subcontainer">
+                        <p>
+                            <a href="/posts/<%=postInstance.id%>">
+                                <%= postInstance.title %>
+                            </a> 
+                            
+                            <br>
+                            
+                            <%= postInstance.user %>
+                            <br>
+                        </p>
+                    </div>
+                </tr>
+            <% } %>
+        </table> -->

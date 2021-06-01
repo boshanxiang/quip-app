@@ -1,0 +1,10 @@
+<form id="comment-form" action="/posts/<%= post.id %>" method="POST">
+    <h5> Add a New Comment </h5>
+    <input type="text" name="user" id="user" placeholder="User">
+    <br>
+    <input type="text" name="title" id="title" placeholder="Comment Title">
+    <br>
+    <textarea id="comment-text" rows="10" cols="70" name="body" placeholder="Body"></textarea>
+    <br>
+    <input type="submit" name="Post Comment" id="Post Comment">
+</form>

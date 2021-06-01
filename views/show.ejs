@@ -5,33 +5,44 @@
 </head>
 <body>
     <%- include('./partials/header.ejs') %>
-    <br>
     <div class="post-container">
-        <h3><%= post.name %></h3>
+
+        <div class="card">
+            <div class="card-header">
+                <a href="/posts/<%=post.id%>">
+                    <h4><%= post.title %></h4>
+                </a>
+            </div>
+            <div class="card-body">
+                <h6 class="card-title"> <%= post.user %> </h6>
+                <p class="card-text"> <%= post.body %> </p>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+                // to update
+            </div>
+        </div>
+
+    </div>
+
+    <div class="delete-update-panel">
         <!-- DELETE BUTTON -->
         <!-- Need to authenticate user --- this needs to be user-specific -->
-        <form action="/posts/<%=post.id%>?_method=DELETE" method="POST">
+        <form action="/posts/<%=post.id%>?_method=DELETE" method="POST" class="delete-update-btn">
             <input type="submit" value="Delete Post">
         </form>
         <!-- UPDATE BUTTON -->
         <!-- Need to authenticate user --- this needs to be user-specific -->
-        <form action="/posts/<%=post.id%>/edit" method="GET">
+        <form action="/posts/<%=post.id%>/edit" method="GET" class="delete-update-btn">
             <input type="submit" value="Update Post">
         </form>
-    
-        <br>
-        <p>
-            <%= post.user %>
-        </p>
-        <br>
-        <p>
-            <%= post.body %>
-        </p>
+    </div> 
 
     </div class="comment-container">
         <h3>Comments:</h3>
         <table>
-        <% for(let comment of post.comments) { %>
+        <% if(foundComments.length > 0) {
+            for(let comment of foundComments) { %>
             <div class="comment">
                     <h5><%= comment.title %></h5>
                 <br>
@@ -40,13 +51,20 @@
                     <%= comment.body %>
             </div>
             <br>
-        <% } %>
+        <% }} %>
             </table>
+        <%- include('./partials/comments-form.ejs') %>
     <div>
 
-    </div>
+
+    <%- include('./partials/bootstrapJS_Popper.ejs') %>
 </body>
 <footer>
+    <style>
+        .delete-update-btn {
+            display: inline-block;
+        }
+    </style>
     <%- include('./partials/footer.ejs') %>
 </footer>
 </html>

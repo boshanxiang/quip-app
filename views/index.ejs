@@ -6,26 +6,32 @@
 <body>
     <%- include('./partials/header.ejs') %>
     <div id="container">
-        <table>
-            <% for(let postNum = 0; postNum < posts.length; postNum++) { 
+
+        <% for(let postNum = 0; postNum < posts.length; postNum++) { 
                 let postInstance = posts[postNum]; %>
-                <tr>
-                    <div class="subcontainer">
-                        <p>
-                            <a href="/posts/<%=postInstance.id%>">
-                                <%= postInstance.title %>
-                            </a> 
-                            
-                            <br>
-                            
-                            <%= postInstance.user %>
-                            <br>
-                        </p>
-                    </div>
-                </tr>
+            <div class="card">
+                <div class="card-header">
+                    <a href="/posts/<%=postInstance.id%>">
+                        <h4><%= postInstance.title %></h4>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title"> <%= postInstance.user %> </h6>
+                    <p class="card-text"> <%
+                        let sentenceArr = postInstance.body.split('. ');
+                        let firstTwoSentences = `${sentenceArr[0]}. ${sentenceArr[1]}.`;
+                         %>
+                        <%= firstTwoSentences %> </p>
+                </div>
+                <div class="card-footer text-muted">
+                     2 days ago
+                     // to update
+                </div>
+            </div>
             <% } %>
-        </table>
+
     </div>
+    <%- include('./partials/bootstrapJS_Popper.ejs') %>
 </body>
 <footer>
     <%- include('./partials/footer.ejs') %>
