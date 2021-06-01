@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+</head>
+<body>
+    <%- include('./partials/header.ejs') %>
+    <br>
+    <div class="post-container">
+        <h3><%= post.name %></h3>
+        <!-- DELETE BUTTON -->
+        <!-- Need to authenticate user --- this needs to be user-specific -->
+        <form action="/posts/<%=post.id%>?_method=DELETE" method="POST">
+            <input type="submit" value="Delete Post">
+        </form>
+        <!-- UPDATE BUTTON -->
+        <!-- Need to authenticate user --- this needs to be user-specific -->
+        <form action="/posts/<%=post.id%>/edit" method="GET">
+            <input type="submit" value="Update Post">
+        </form>
+    
+        <br>
+        <p>
+            <%= post.user %>
+        </p>
+        <br>
+        <p>
+            <%= post.body %>
+        </p>
+
+    </div class="comment-container">
+        <h3>Comments:</h3>
+        <table>
+        <% for(let comment of post.comments) { %>
+            <div class="comment">
+                    <h5><%= comment.title %></h5>
+                <br>
+                    <%= comment.user %>
+                <br>
+                    <%= comment.body %>
+            </div>
+            <br>
+        <% } %>
+            </table>
+    <div>
+
+    </div>
+</body>
+<footer>
+    <%- include('./partials/footer.ejs') %>
+</footer>
+</html>
