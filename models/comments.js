@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
     title: {type: String, required: true},
-    user: {type: String, required: true}, //query whether this should be user-id when available;
+    user: {type: String, required: true},
     body: {type: String, required: true},
     img: {type: String},
     parent_ID: {type: String, required: true},

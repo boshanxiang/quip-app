@@ -18,35 +18,73 @@ users.get('/login', (req, res) => {
 })
 
 users.post('/:id/upvote', (req, res) => {
-    console.log(req.session.currentUser);
-    console.log('above is req.session.currentUser');
-    User.find({username: req.session.currentUser.username})
-    // User.findOneAndUpdate({username: req.session.currentUser.username}, {$push: {upvote: `${req.params.id}`}}, {new: true}, (error, foundUser) => {
-    //     if(error) {
-    //         console.log(error.message)
-    //     } else {
-    //     console.log(foundUser);
-    //     console.log('above is foundUser');
-    //     res.redirect(`/posts/${req.params.id}`);
-    //     }
-    // });
+    User.find({username:req.session.currentUser.username}, (error, foundUser) => {
+        if(error) {
+            console.log(error);
+        } else {
+            if(!foundUser[0].upvotes.some((element) => (element == req.params.id))) {
+                User.findOneAndUpdate({username: req.session.currentUser.username}, {$push: {upvotes: `${req.params.id}`}}, {new: true}, (error, foundUser) => {
+                    if(error) {
+                        console.log(error.message)
+                    } else {
+                    console.log(foundUser);
+                    console.log('above is foundUser');
+                    res.redirect(`/posts/${req.params.id}`);
+                    }
+                });
+              
+            } else {
+                res.redirect(`/posts/${req.params.id}`);
+            }
+        }
+    });
 });
 
-// users.post('/:id/downvote', (req, res) => {
-//     User.findOneAndUpdate({name: req.session.currentUser.username}, (err, foundUser) => {
-//         foundUser.downvote.push(req.params.id);
-//         console.log(foundUser);
-//         res.redirect(`/posts/${req.params.id}`);
-//     });
-// })
+users.post('/:id/downvote', (req, res) => {
+    User.find({username:req.session.currentUser.username}, (error, foundUser) => {
+        if(error) {
+            console.log(error);
+        } else {
+            if(!foundUser[0].downvotes.some((element) => (element == req.params.id))) {
+                User.findOneAndUpdate({username: req.session.currentUser.username}, {$push: {downvotes: `${req.params.id}`}}, {new: true}, (error, foundUser) => {
+                    if(error) {
+                        console.log(error.message)
+                    } else {
+                    console.log(foundUser);
+                    console.log('above is foundUser');
+                    res.redirect(`/posts/${req.params.id}`);
+                    }
+                });
+              
+            } else {
+                res.redirect(`/posts/${req.params.id}`);
+            }
+        }
+    });
+});
 
-// users.post('/:id/bookmark', (req, res) => {
-//     User.findOneAndUpdate({name: req.session.currentUser.username}, (err, foundUser) => {
-//         foundUser.bookmark.push(req.params.id);
-//         console.log(foundUser);
-//         res.redirect(`/posts/${req.params.id}`);
-//     });
-// })
+users.post('/:id/bookmark', (req, res) => {
+    User.find({username:req.session.currentUser.username}, (error, foundUser) => {
+        if(error) {
+            console.log(error);
+        } else {
+            if(!foundUser[0].bookmarks.some((element) => (element == req.params.id))) {
+                User.findOneAndUpdate({username: req.session.currentUser.username}, {$push: {bookmarks: `${req.params.id}`}}, {new: true}, (error, foundUser) => {
+                    if(error) {
+                        console.log(error.message)
+                    } else {
+                    console.log(foundUser);
+                    console.log('above is foundUser');
+                    res.redirect(`/posts/${req.params.id}`);
+                    }
+                });
+              
+            } else {
+                res.redirect(`/posts/${req.params.id}`);
+            }
+        }
+    });
+});
 
 users.post('/', (req, res) => {
     console.log(req.body);

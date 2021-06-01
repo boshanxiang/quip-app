@@ -69,7 +69,7 @@
     //CREATE COMMENT ROUTE
         router.post('/:id', isAuthenticated, (req, res) => {
             req.body.parent_ID = req.params.id;
-            req.body.user = req.session.currentUser;
+            req.body.user = req.session.currentUser.username;
             console.log(req.body);
             Comment.create(req.body, (error, createdComment) => {
                 res.redirect(`/posts/${req.params.id}`);
