@@ -17,8 +17,15 @@
       </form>
 
       <div class="text-end">
-        <button type="button" class="btn btn-outline-light me-2">Login</button>
-        <button type="button" class="btn btn-warning">Sign-up</button>
+        <% if(currentUser) { %>
+        Welcome <%= currentUser.username %>
+        <form action="/sessions?_method=DELETE" method="POST">
+          <input type="submit" value="Log Out" class="btn btn-outline-light me-2">
+        </form>
+        <% } else { %> 
+          <a href="/users/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+          <a href="/users/new"><button type="button" class="btn btn-warning">Sign-up</button></a>
+        <% } %>
       </div>
     </div>
   </div>

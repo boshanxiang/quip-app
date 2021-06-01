@@ -4,22 +4,22 @@ const sessions = express.Router();
 const User = require('../models/users.js');
 
 sessions.get('/new', (req, res) => {
-    res.render('sessions/new.ejs', {currentUser: req.session.currentUser});
+    res.render('./users/login_user.ejs');
 });
 
 sessions.post('/', (req, res) => {
     User.findOne({username: req.body.username}, (err, foundUser) => {
         if(err) {
             console.log(err.message);
-            res.send('Error');
+            res.send('<a href="/users/login"> Error, please try again. </a>');
         } else if (!foundUser) {
-            res.send('<a href="/posts"> Sorry no user found </a>')
+            res.send('<a href="/users/login"> Sorry no user found. Please try again. </a>')
         } else {
             if(bcrypt.compareSync(req.body.password, foundUser.password)) {
                 req.session.currentUser = foundUser;
                 res.redirect('/posts');
             } else {
-                res.send('<a href="/"> Password does not match </a>');
+                res.send('<a href="/users/login"> Password does not match. Please try again. </a>');
             }
         }
     });

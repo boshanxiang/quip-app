@@ -53,41 +53,6 @@
         const sessionsController = require('./controllers/sessions_controller.js');
         app.use('/sessions', sessionsController);
 
-    //>>>>>>>SESSION LOGIC
-
-        // app.get('/create-session', (req, res) => {
-        //     console.log(req.session);
-        //     req.session.potato = "tomato";
-        //     res.redirect('/fruits');
-        // })
-
-        // app.get('/retrieve-session', (req, res) => {
-        //     if(req.session.potato === 'tomato') {
-        //         console.log('that potato is a tomato');
-        //     } else {
-        //         console.log('thank god it is not a tomato');
-        //     }
-        //     res.redirect('/fruits')
-        // })
-
-        // app.get('/update-session', (req, res) => {
-        //     req.session.potato = 'potato';
-        //     console.log(req.session);
-        //     res.redirect('/fruits');
-        // })
-
-        // app.get('/delete-session', (req, res) => {
-        //     req.session.destroy((err) => {
-        //         if(err) {
-        //             console.log('Something went wrong removing a session')
-        //         } else {
-        //             console.log('Session removed successfully')
-        //         }
-        //     });
-        //     res.redirect('/fruits');
-        // })
-    //
-
 //APP LISTEN
 app.listen(PORT, () => {
     console.log('Server is up and running on port ' + PORT);

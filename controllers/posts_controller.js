@@ -8,6 +8,14 @@
     const seedPosts = require('../models/seed.js');
     const Comment = require('../models/comments.js')
 
+    const isAuthenticated = (req, res, next) => {
+        if (req.session.currentUser) {
+          return next()
+        } else {
+          res.redirect('/sessions/new')
+        }
+      }
+
 //ROUTES
 
     //INDEX ROUTE
@@ -17,8 +25,9 @@
                     console.log(error);
                 } else {
                     res.render('index.ejs', {
-                        posts: allPosts, // WILL NEED TO ADD/PASS USER OBJECT
-                        pageTitle: 'Index'
+                        posts: allPosts,
+                        pageTitle: 'Index',
+                        currentUser: req.session.currentUser
                     })
                 };
             });
@@ -42,23 +51,25 @@
         });
 
     //NEW ROUTE
-        router.get('/new', (req, res) => {
+        router.get('/new', isAuthenticated, (req, res) => {
             res.render('new.ejs', {
-                pageTitle: 'New Post' // WILL NEED TO ADD/PASS USER OBJECT
+                pageTitle: 'New Post',
+                currentUser: req.session.currentUser
             })
         })
 
     //CREATE POST ROUTE
-        router.post('/', (req, res) => {
+        router.post('/', isAuthenticated, (req, res) => {
             Post.create(req.body, (error, createdPost) => {
-                res.redirect(`/posts/ ${createdPost.id}`)
+                res.redirect(`/posts/${createdPost.id}`)
             });
         });
 
 
     //CREATE COMMENT ROUTE
-        router.post('/:id', (req, res) => {
+        router.post('/:id', isAuthenticated, (req, res) => {
             req.body.parent_ID = req.params.id;
+            req.body.user = req.session.currentUser;
             console.log(req.body);
             Comment.create(req.body, (error, createdComment) => {
                 res.redirect(`/posts/${req.params.id}`);
@@ -73,9 +84,10 @@
                     } else {
                         Comment.find({parent_ID: req.params.id}, (error, foundComments) => {
                             res.render('show.ejs', {
-                                post: foundPost, //WILL NEED TO ADD/PASS USER OBJECT
+                                post: foundPost,
                                 foundComments: foundComments,
-                                pageTitle: foundPost.title
+                                pageTitle: foundPost.title,
+                                currentUser: req.session.currentUser
                             });
                         })
                     }
@@ -84,25 +96,26 @@
 
     //DELETE POST ROUTE
         //CONSIDER WHETHER ONLY USER SHOULD HAVE ABILITY TO DELETE POST
-        router.delete('/:id', (req, res) => {
+        router.delete('/:id', isAuthenticated, (req, res) => {
             Post.findByIdAndRemove(req.params.id, (error, deletedPost) => {
-                res.redirect('/posts'); //CONSIDER WHETHER TO PASS USER OBJECT IN ORDER TO AUTHENTICATE DELETE AUTHORITY
+                res.redirect('/posts');
             })
         })
 
 
     //EDIT SHOW ROUTE
-        router.get('/:id/edit', (req, res) => {
+        router.get('/:id/edit', isAuthenticated, (req, res) => {
             Post.findById(req.params.id, (error, foundPost) => {
                 res.render('edit.ejs', {
                     post: foundPost,
-                    pageTitle: foundPost.title
+                    pageTitle: foundPost.title,
+                    currentUser: req.session.currentUser
                 });
             });
         });
 
     //PUT EDITED POST ROUTE
-        router.put('/:id', (req, res) => {
+        router.put('/:id', isAuthenticated, (req, res) => {
             Post.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, updatedPost) => {
                 res.redirect(`/posts/${updatedPost.id}`);
             });

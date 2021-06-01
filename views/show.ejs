@@ -24,19 +24,35 @@
         </div>
 
     </div>
+    
+    <!-- INTERACTION PANEL -->
+    <% if(currentUser) { %>
+        <div class="interact-panel">
+            <!-- Upvote BUTTON -->
+            <form action="/users/<%=post.id%>/upvote" method="POST" class="interact-btn">
+                <input type="submit" value="Upvote">
+            </form>
+            <!-- Downvote BUTTON -->
+            <form action="/users/<%=post.id%>/downvote" method="POST" class="interact-btn">
+                <input type="submit" value="Downvote">
+            </form>
 
-    <div class="delete-update-panel">
-        <!-- DELETE BUTTON -->
-        <!-- Need to authenticate user --- this needs to be user-specific -->
-        <form action="/posts/<%=post.id%>?_method=DELETE" method="POST" class="delete-update-btn">
-            <input type="submit" value="Delete Post">
-        </form>
-        <!-- UPDATE BUTTON -->
-        <!-- Need to authenticate user --- this needs to be user-specific -->
-        <form action="/posts/<%=post.id%>/edit" method="GET" class="delete-update-btn">
-            <input type="submit" value="Update Post">
-        </form>
-    </div> 
+            <!-- BOOKMARK BUTTON -->
+            <form action="/users/<%=post.id%>/bookmark" method="POST" class="interact-btn">
+                <input type="submit" value="Bookmark Post">
+            </form>
+            
+            <%  if (currentUser.username === post.user) { %>
+            <!-- DELETE BUTTON -->
+            <form action="/posts/<%=post.id%>?_method=DELETE" method="POST" class="interact-btn">
+                <input type="submit" value="Delete Post">
+            </form>
+            <!-- UPDATE BUTTON -->
+            <form action="/posts/<%=post.id%>/edit" method="GET" class="interact-btn">
+                <input type="submit" value="Update Post">
+            </form>
+        </div> 
+    <% }} %>
 
     </div class="comment-container">
         <h3>Comments:</h3>
