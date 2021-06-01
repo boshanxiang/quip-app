@@ -6,7 +6,7 @@
 
     //USER AUTHENTICATION DEPENDENCIES
     const session = require('express-session');
-    // const bcrypt = require('bcrypt');
+    const bcrypt = require('bcrypt');
     const dotenv = require('dotenv').config();
 
     //APP CONFIGURATION
@@ -18,13 +18,13 @@
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
     app.use(methodOverride('_method'));
-    // app.use(
-    //     session({
-    //         secret: process.env.SECRET,
-    //         resave: false,
-    //         saveUnitialized: false
-    //     })
-    // )
+    app.use(
+        session({
+            secret: process.env.SECRET,
+            resave: false,
+            saveUnitialized: false
+        })
+    )
 
     //MONGOOSE MIDDLEWARE
     mongoose.connect(`mongodb://localhost:27017/${MONGODBNAME}`, {
@@ -40,8 +40,18 @@
     app.use(express.static('public'));
 
     //CONTROLLER REQUIRE
-    const postsController = require('./controllers/posts.js');
-    app.use('/posts', postsController);
+
+        //Posts Controller
+        const postsController = require('./controllers/posts_controller.js');
+        app.use('/posts', postsController);
+
+        //Users Controller
+        const userController = require('./controllers/users_controller.js');
+        app.use('/users', userController);
+
+        //Sessions Controller
+        const sessionsController = require('./controllers/sessions_controller.js');
+        app.use('/sessions', sessionsController);
 
     //>>>>>>>SESSION LOGIC
 
@@ -77,15 +87,6 @@
         //     res.redirect('/fruits');
         // })
     //
-
-    //>>>>>BCRYPT TEST
-        // app.get('/test-bcrypt', (req, res) => {
-        // const hashedString = bcrypt.hashSync('password', bcrypt.genSaltSync(10))
-        // console.log(hashedString);
-        // const samePassword = bcrypt.compareSync('wrongPassword', hashedString);
-        // console.log(samePassword)
-        // })
-
 
 //APP LISTEN
 app.listen(PORT, () => {

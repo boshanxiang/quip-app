@@ -6,6 +6,7 @@
 //MODELS IMPORT
     const Post = require('../models/posts.js');
     const seedPosts = require('../models/seed.js');
+    const Comment = require('../models/comments.js')
 
 //ROUTES
 
@@ -57,30 +58,26 @@
 
     //CREATE COMMENT ROUTE
         router.post('/:id', (req, res) => {
-            req.body.comment_parent_ID = req.params.id;
+            req.body.parent_ID = req.params.id;
             console.log(req.body);
-            Post.create(req.body, (error, createdComment) => {
+            Comment.create(req.body, (error, createdComment) => {
                 res.redirect(`/posts/${req.params.id}`);
             });
         })
 
     //SHOW ROUTE
         router.get('/:id', (req, res) => {
-            let postComments;
-            Post.find({comment_parent_ID: `${req.params.id}`}, (error, foundComments) => {
-                postComments = foundComments;
-            })
             Post.findById(req.params.id, (error, foundPost) => {
                     if(error) {
                         console.log(error.message);
                     } else {
-                        console.log(postComments);
-                        console.log('found Comments Above')
-                        res.render('show.ejs', {
-                            post: foundPost, //WILL NEED TO ADD/PASS USER OBJECT
-                            pageTitle: foundPost.title,
-                            foundComments: postComments
-                        });
+                        Comment.find({parent_ID: req.params.id}, (error, foundComments) => {
+                            res.render('show.ejs', {
+                                post: foundPost, //WILL NEED TO ADD/PASS USER OBJECT
+                                foundComments: foundComments,
+                                pageTitle: foundPost.title
+                            });
+                        })
                     }
             });
         });
