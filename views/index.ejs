@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <div class="card-body">
-                    <h6 class="card-title"> <%= postInstance.user %> </h6>
+                    <h6 class="card-title"> <a href = "/users/<%= postInstance.user %>"> <%= postInstance.user %> </a> </h6>
                     <p class="card-text"> <%
                         let sentenceArr = postInstance.body.split('. ');
                         let firstTwoSentences = `${sentenceArr[0]}. ${sentenceArr[1]}.`;

@@ -62,6 +62,7 @@
 
     //CREATE POST ROUTE
         router.post('/', isAuthenticated, (req, res) => {
+            req.body.user = req.session.currentUser.username;
             Post.create(req.body, (error, createdPost) => {
                 User.findOneAndUpdate(
                     {username: req.session.currentUser.username},

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+
+</head>
+<body>
+    <%- include('../partials/header.ejs') %>
+    <div class="post-container">
+        <h3> User posts </h3>
+        <% for (userPost in userPosts) { %>
+        <div class="card">
+            <div class="card-header">
+                <a href="/posts/<%=userPost.id%>">
+                    <h4><%= userPost.title %></h4>
+                </a>
+            </div>
+            <div class="card-body">
+                <h6 class="card-title"> <%= userPost.user %> </h6>
+                <p class="card-text"> <%= userPost.body %> </p>
+            </div>
+            <div class="card-footer text-muted">
+            </div>
+        </div>
+
+        <% } %>
+
+        <br>
+
+        <h3> Posts Bookmarked by user </h3>
+        <% for (bookmark in bookmarks) { %>
+            <div class="card">
+                <div class="card-header">
+                    <a href="/posts/<%=bookmark.id%>">
+                        <h4><%= bookmark.title %></h4>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title"> <%= bookmark.user %> </h6>
+                    <p class="card-text"> <%= bookmark.body %> </p>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+            </div>
+        <% } %>
+
+    </div>
+    <div>
+
+
+    <%- include('../partials/bootstrapJS_Popper.ejs') %>
+</body>
+<footer>
+    <style>
+        .delete-update-btn {
+            display: inline-block;
+        }
+    </style>
+    <%- include('../partials/footer.ejs') %>
+</footer>
+</html>

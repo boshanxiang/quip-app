@@ -18,6 +18,27 @@ users.get('/login', (req, res) => {
     res.render('./users/login_user.ejs');
 })
 
+users.get('/:username', (req, res) => {
+    User.find({username: req.params.username}, (error, foundUser) => {
+        console.log('found User is ' + foundUser)
+        let bookmarkArr = [];
+        for(bookmark in foundUser.bookmarks) {
+            Post.findById(bookmark, (error, foundPost) => {
+                bookmarkArr.push(foundPost);
+            })
+        }
+        console.log("bookmarkArr is:" + bookmarkArr);
+        let userPostsArr = [];
+        for(userPost in foundUser.userPosts) {
+            Post.findById(userPost, (error, foundPost) => {
+                userPostsArr.push(foundPost)
+            })    
+        }
+        console.log("userPostsArr is:" + bookmarkArr);
+        res.render('./users/show_user.ejs', {pageTitle: `Userpage for ${req.params.username}`, bookmarks: bookmarkArr, userPosts: userPostsArr, currentUser: req.session.currentUser});
+    })
+})
+
 users.post('/:id/upvote', (req, res) => {
     User.find({username: req.session.currentUser.username}, (error, foundUser) => {
         if(error) {
