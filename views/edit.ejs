@@ -7,22 +7,56 @@
     <%- include('./partials/header.ejs') %>
     
     <form action="/posts/<%= post.id %>?_method=PUT" method="POST">
-            <label for="title">Post Title</label>
-            <input type="text" name="title" id="title" value="<%= post.title %>"/>
-        <br>
-            <label for="body">Body</label>
-            <textarea name="body" id="body" rows="10" cols="20">
-                <%= post.body %>
-            </textarea>
-        <br>
-            <label for="img">Image Source</label>
-            <input type="img" name="img" id="img" value="<%= post.img %>"/>
-        <br>
-            <input type="submit" value="Update Post">
+        <table style="margin-left:2em">
+            <tr>
+                <th>
+    
+                </th>
+                <th>
+                    <h3> Edit Post <h3></h3>
+                </th>
+    
+            </tr>
+            <tr>
+                <td> 
+                    <label for="title">
+                        
+                    </label>
+                </td>
+                <td>
+                    <input type="text" name="title" id="title" value="<%= post.title %>" size="80"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="body"></label>    
+                </td>
+                <td>
+                    <textarea id="body" name="body" cols="79" rows ="20"><%= post.body %></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="img"></label>        
+                </td>
+                <td>
+                    <input type="img" name="img" id="img" value="<%= post.img %>" size="80"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="submit" value="Update Post">
+                </td>
+            </tr>
+        </table>
     </form>
+
     <%- include('./partials/bootstrapJS_Popper.ejs') %>
 </body>
 <footer>
     <%- include('./partials/footer.ejs') %>
 </footer>
 </html>
+

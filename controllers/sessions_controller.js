@@ -8,9 +8,9 @@ sessions.get('/new', (req, res) => {
 });
 
 sessions.post('/', (req, res) => {
-    User.findOne({username: req.body.username}, (err, foundUser) => {
+    User.findOne({username: req.body.username}, (error, foundUser) => {
         if(err) {
-            console.log(err.message);
+            console.log(error.message);
             res.send('<a href="/users/login"> Error, please try again. </a>');
         } else if (!foundUser) {
             res.send('<a href="/users/login"> Sorry no user found. Please try again. </a>')

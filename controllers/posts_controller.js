@@ -71,8 +71,9 @@
                     {$push: {userPosts: createdPost.id}},
                     {new: true},
                     (error, newPostUser) => {
-                    console.log(newPostUser.userPosts);
-                    console.log("above is the new posts by the user");
+                        if(error) {
+                            console.log(error.message)
+                        }
                     }
                 )
                 res.redirect(`/posts/${createdPost.id}`)
@@ -84,7 +85,6 @@
         router.post('/:id', isAuthenticated, (req, res) => {
             req.body.parent_ID = req.params.id;
             req.body.user = req.session.currentUser.username;
-            console.log(req.body);
             Comment.create(req.body, (error, createdComment) => {
                 res.redirect(`/posts/${req.params.id}`);
             });

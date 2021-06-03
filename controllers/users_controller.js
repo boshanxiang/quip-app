@@ -37,10 +37,6 @@ users.get('/:username', (req, res) => {
                             if(error) {
                                 console.log("userPost push error: " + error.message)
                             } else {
-                                console.log("***********found bookmarked posts")
-                                console.log(foundBookmarkedPosts)
-                                console.log("***********found user posts")
-                                console.log(foundUserPosts)
                                 res.render('./users/show_user.ejs', {
                                     pageTitle: `Userpage for ${req.params.username}`,
                                     bookmarks: foundBookmarkedPosts,
@@ -66,31 +62,24 @@ users.post('/:id/upvote', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    console.log(foundUser);
-                    console.log('above is foundUser');
                     res.redirect(`/posts/${req.params.id}`);
                     }
                 });
                 Post.findByIdAndUpdate(req.params.id, {$inc: {upvotes: 1}}, {new: true}, (error, upvotedPost) => {
                         if(error) {
                             console.log(error.message)
-                        } else {
-                            console.log(upvotedPost);
-                            console.log('above is the upvoted Post');    
                         }
                     })
                 if(foundUser[0].downvotes.some((element) => (element == req.params.id))) {
                     req.session.currentUser.downvotes.splice(req.session.currentUser.downvotes.indexOf(req.params.id), 1);
                     User.findOneAndUpdate({username: req.session.currentUser.username}, {$pull: {downvotes: {$in: [req.params.id]}}}, {new: true}, (error, updatedUser) => {
-                        console.log(updatedUser);
-                        console.log('above is the updated user (downvote removed)');
+                        if(error) {
+                            console.log(error.message);
+                        }
                     });
                     Post.findByIdAndUpdate(req.params.id, {$inc: {downvotes: -1}}, {new: true}, (error, downvotedPost) => {
                         if(error) {
                             console.log(error.message);
-                        } else {
-                            console.log(downvotedPost);
-                            console.log('above is the updated Post (downvote removed)');
                         }
                     })
                 }
@@ -113,31 +102,24 @@ users.post('/:id/downvote', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    console.log(foundUser);
-                    console.log('above is foundUser');
                     res.redirect(`/posts/${req.params.id}`);
                     }
                 });
                 Post.findByIdAndUpdate(req.params.id, {$inc: {downvotes: 1}}, {new: true}, (error, downvotedPost) => {
                         if(error) {
                             console.log(error.message)
-                        } else {
-                            console.log(downvotedPost);
-                            console.log('above is the downvoted Post');    
                         }
                     })
                 if(foundUser[0].upvotes.some((element) => (element == req.params.id))) {
                     req.session.currentUser.upvotes.splice(req.session.currentUser.upvotes.indexOf(req.params.id), 1);
                     User.findOneAndUpdate({username: req.session.currentUser.username}, {$pull: {upvotes: {$in: [req.params.id]}}}, {new: true}, (error, updatedUser) => {
-                        console.log(updatedUser);
-                        console.log('above is the updated user (upvote removed)');
+                        if(error) {
+                            console.log(error.message)
+                        }
                     });
                     Post.findByIdAndUpdate(req.params.id, {$inc: {upvotes: -1}}, {new: true}, (error, upvotedPost) => {
                         if(error) {
                             console.log(error.message);
-                        } else {
-                            console.log(upvotedPost);
-                            console.log('above is the updated Post (upvote removed)');
                         }
                     })
                 }
@@ -152,7 +134,7 @@ users.post('/:id/downvote', (req, res) => {
 users.post('/:id/bookmark', (req, res) => {
     User.find({username: req.session.currentUser.username}, (error, foundUser) => {
         if(error) {
-            console.log(error);
+            console.log(error.message);
         } else {
             if(!foundUser[0].bookmarks.some((element) => (element == req.params.id))) {
                 req.session.currentUser.bookmarks.push(req.params.id);
@@ -160,8 +142,6 @@ users.post('/:id/bookmark', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    console.log(foundUser);
-                    console.log('above is foundUser');
                     res.redirect(`/posts/${req.params.id}`);
                     }
                 });
@@ -171,8 +151,6 @@ users.post('/:id/bookmark', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    console.log(foundUser);
-                    console.log('above is foundUser');
                     res.redirect(`/posts/${req.params.id}`);
                     }
                 });

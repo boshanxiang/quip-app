@@ -7,3 +7,10 @@ body {
     padding-bottom: 10px;
 }
 
+.interact-btn {
+    display:inline-block;
+}
+
+.transparent-btn {
+    display:none;
+}

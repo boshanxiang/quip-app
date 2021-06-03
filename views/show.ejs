@@ -38,78 +38,26 @@
     
 
 <!-- INTERACTION PANEL -->
-<% if(currentUser) { %>
-    
-    <div class="interact-panel">
-        <!-- Upvote BUTTON -->
-        <form action="/users/<%=post.id%>/upvote" method="POST" class="interact-btn">
-            <label>
-                <input type="submit" value="Upvote" class="transparent-btn">
-                <% if(currentUser.upvotes.includes(post.id)) { %>
-                    <p id="upvote-button" style="color:red">^^</p>
-                <% } else { %>
-                    <p id="upvote-button">^^</p>
-                <% } %>
-            </label>
-        </form>
-        <!--Net Vote Display-->
-        <p><% let netVotes = (post.upvotes - post.downvotes) %>
-            <%= netVotes %> </p>
-        <!-- Downvote BUTTON -->
-        <form action="/users/<%=post.id%>/downvote" method="POST" class="interact-btn">
-            <label>
-                <input type="submit" value="Downvote" class="transparent-btn">
-                <% if(currentUser.downvotes.includes(post.id)) { %>
-                    <p id="downvote-button" style="color:red">VV</p>
-                <% } else { %>
-                    <p id="downvote-button">VV</p>
-                <% } %>
-            </label>
-        </form>
+<%- include('./partials/interaction-panel.ejs') %>
 
-        <!-- BOOKMARK BUTTON -->
-        <form action="/users/<%=post.id%>/bookmark" method="POST" class="interact-btn">
-            <label>
-                <input type="submit" value="Bookmark Post" class="transparent-btn">
-            <% console.log(currentUser);
-            console.log('above is currentUser')
-            if(currentUser.bookmarks.includes(post.id)) { %>
-                    <p id="bookmark-button" style="color:red">FAV </p>
-                <% } else { %>
-                    <p id="bookmark-button">FAV </p>
-                <% } %>
-            </label>
-        </form>
-        
-        <!-- DELETE BUTTON -->
-        <form action="/posts/<%=post.id%>?_method=DELETE" method="POST" class="interact-btn">
-            <input type="submit" value="Delete Post">
-        </form>
-        <!-- UPDATE BUTTON -->
-        <form action="/posts/<%=post.id%>/edit" method="GET" class="interact-btn">
-            <input type="submit" value="Update Post">
-        </form>
-    </div> 
 
-<% } %>
-
-    </div class="comment-container">
-        <h3>Comments:</h3>
-        <table>
-        <% if(foundComments.length > 0) {
-            for(let comment of foundComments) { %>
-            <div class="comment">
-                    <h5><%= comment.title %></h5>
-                <br>
-                    <%= comment.user %>
-                <br>
-                    <%= comment.body %>
-            </div>
+<div class="comment-container" style="margin-left:2em">
+    <h3>Comments:</h3>
+    <table>
+    <% if(foundComments.length > 0) {
+        for(let comment of foundComments) { %>
+        <div class="comment">
+                <h5><%= comment.title %></h5>
             <br>
-        <% }} %>
-            </table>
-        <%- include('./partials/comments-form.ejs') %>
-    <div>
+                <%= comment.user %>
+            <br>
+                <%= comment.body %>
+        </div>
+        <br>
+    <% }} %>
+        </table>
+    <%- include('./partials/comments-form.ejs') %>
+</div>
 
 
     <%- include('./partials/bootstrapJS_Popper.ejs') %>
