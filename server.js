@@ -5,14 +5,14 @@
     const methodOverride = require('method-override');
 
     //USER AUTHENTICATION DEPENDENCIES
+    const dotenv = require('dotenv').config();
     const session = require('express-session');
     const bcrypt = require('bcrypt');
-    const dotenv = require('dotenv').config();
 
     //APP CONFIGURATION
     const app = express();
-    const PORT = process.env.PORT;
-    const MONGODBNAME = process.env.MONGODBNAME
+    const PORT = process.env.PORT || 3000;
+    const MONGODB_URI = process.env.MONGODB_URI
 
     //MIDDLEWARE
     app.use(express.urlencoded({extended: true}));
@@ -33,8 +33,9 @@
         useFindAndModify: false
     });
     mongoose.connection.once('open', () => {
-        console.log('connected to mongo');
-    });
+            console.log('connected to mongo');
+        });
+
 
     //PUBLIC STATIC FOLDER
     app.use(express.static('public'));
