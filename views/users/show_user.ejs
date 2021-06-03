@@ -7,8 +7,8 @@
 <body>
     <%- include('../partials/header.ejs') %>
     <div class="post-container">
-        <h3> User posts </h3>
-        <% for (userPost in userPosts) { %>
+        <h3> User Posts </h3>
+        <% for (let userPost of userPosts) { %>
         <div class="card">
             <div class="card-header">
                 <a href="/posts/<%=userPost.id%>">
@@ -26,9 +26,8 @@
         <% } %>
 
         <br>
-
         <h3> Posts Bookmarked by user </h3>
-        <% for (bookmark in bookmarks) { %>
+        <% for (let bookmark of bookmarks) { %>
             <div class="card">
                 <div class="card-header">
                     <a href="/posts/<%=bookmark.id%>">

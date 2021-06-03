@@ -24,8 +24,8 @@
                         <%= firstTwoSentences %> </p>
                 </div>
                 <div class="card-footer text-muted">
-                     2 days ago
-                     // to update
+                    <% let netVotes = postInstance.upvotes - postInstance.downvotes %>
+                    <%= netVotes %> votes
                 </div>
             </div>
             <% } %>

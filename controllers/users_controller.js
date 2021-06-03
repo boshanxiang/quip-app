@@ -19,23 +19,39 @@ users.get('/login', (req, res) => {
 })
 
 users.get('/:username', (req, res) => {
-    User.find({username: req.params.username}, (error, foundUser) => {
-        console.log('found User is ' + foundUser)
-        let bookmarkArr = [];
-        for(bookmark in foundUser.bookmarks) {
-            Post.findById(bookmark, (error, foundPost) => {
-                bookmarkArr.push(foundPost);
-            })
+    let bookmarkArr = [];
+    let userPostsArr = [];
+    User.findOne({username: req.params.username}, (error, foundUser) => {
+        if(error) {
+            console.log(error.message);
+        } else if(!foundUser) {
+            res.send('<a href="/posts">No such user found</a>'); 
+        } else {
+                let bookmarkIDs = foundUser.bookmarks;
+                Post.find({'_id': {$in: bookmarkIDs}}, (error, foundBookmarkedPosts) => {
+                    if(error) {
+                        console.log("bookmark push error: " + error.message)
+                    } else {
+                        let userPostIDs = foundUser.userPosts;
+                        Post.find({'_id': {$in: userPostIDs}}, (error, foundUserPosts) => {
+                            if(error) {
+                                console.log("userPost push error: " + error.message)
+                            } else {
+                                console.log("***********found bookmarked posts")
+                                console.log(foundBookmarkedPosts)
+                                console.log("***********found user posts")
+                                console.log(foundUserPosts)
+                                res.render('./users/show_user.ejs', {
+                                    pageTitle: `Userpage for ${req.params.username}`,
+                                    bookmarks: foundBookmarkedPosts,
+                                    userPosts: foundUserPosts,
+                                    currentUser: req.session.currentUser
+                                });
+                            }
+                        })
+                    }
+                })
         }
-        console.log("bookmarkArr is:" + bookmarkArr);
-        let userPostsArr = [];
-        for(userPost in foundUser.userPosts) {
-            Post.findById(userPost, (error, foundPost) => {
-                userPostsArr.push(foundPost)
-            })    
-        }
-        console.log("userPostsArr is:" + bookmarkArr);
-        res.render('./users/show_user.ejs', {pageTitle: `Userpage for ${req.params.username}`, bookmarks: bookmarkArr, userPosts: userPostsArr, currentUser: req.session.currentUser});
     })
 })
 

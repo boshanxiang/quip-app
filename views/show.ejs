@@ -25,12 +25,12 @@
                 </a>
             </div>
             <div class="card-body">
-                <h6 class="card-title"> <%= post.user %> </h6>
+                <h6 class="card-title"> <a href = "/users/<%= post.user %>"> <%= post.user %> </a> </h6>
                 <p class="card-text"> <%= post.body %> </p>
             </div>
             <div class="card-footer text-muted">
-                2 days ago
-                // to update
+                <% let netVotes = post.upvotes - post.downvotes %>
+                <%= netVotes %> votes
             </div>
         </div>
 
@@ -74,9 +74,9 @@
             <% console.log(currentUser);
             console.log('above is currentUser')
             if(currentUser.bookmarks.includes(post.id)) { %>
-                    <p id="bookmark-button" style="color:red">FAV <%= post.id %></p>
+                    <p id="bookmark-button" style="color:red">FAV </p>
                 <% } else { %>
-                    <p id="bookmark-button">FAV <%= post.id %> </p>
+                    <p id="bookmark-button">FAV </p>
                 <% } %>
             </label>
         </form>
