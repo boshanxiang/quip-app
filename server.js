@@ -27,7 +27,7 @@
     )
 
     //MONGOOSE MIDDLEWARE
-    mongoose.connect(`mongodb://localhost:27017/${MONGODB_URI}`, {
+    mongoose.connect(MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false
