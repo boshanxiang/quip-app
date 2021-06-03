@@ -54,6 +54,11 @@
         const sessionsController = require('./controllers/sessions_controller.js');
         app.use('/sessions', sessionsController);
 
+    //REDIRECT ROUTE
+    app.get('/', (req, res) => {
+        res.redirect('/posts');
+    })
+
 //APP LISTEN
 app.listen(PORT, () => {
     console.log('Server is up and running on port ' + PORT);
