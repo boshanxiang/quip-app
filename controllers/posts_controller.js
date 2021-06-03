@@ -6,7 +6,9 @@
 //MODELS IMPORT
     const Post = require('../models/posts.js');
     const seedPosts = require('../models/seed.js');
-    const Comment = require('../models/comments.js')
+    const Comment = require('../models/comments.js');
+    const User = require('../models/users.js');
+
 
     const isAuthenticated = (req, res, next) => {
         if (req.session.currentUser) {
@@ -61,6 +63,15 @@
     //CREATE POST ROUTE
         router.post('/', isAuthenticated, (req, res) => {
             Post.create(req.body, (error, createdPost) => {
+                User.findOneAndUpdate(
+                    {username: req.session.currentUser.username},
+                    {$push: {userPosts: createdPost.id}},
+                    {new: true},
+                    (error, newPostUser) => {
+                    console.log(newPostUser.userPosts);
+                    console.log("above is the new posts by the user");
+                    }
+                )
                 res.redirect(`/posts/${createdPost.id}`)
             });
         });

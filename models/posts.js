@@ -5,7 +5,8 @@ const postSchema = new mongoose.Schema({
     user: {type: String, required: true}, //query whether this should be user-id when available;
     body: {type: String, required: true},
     img: {type: String},
-    comments: [this] //SELF-REFERENTIAL SCHEMA TO BE USED FOR COMMENTS/SUB-POSTS
+    upvotes: {type: Number, default: 0},
+    downvotes: {type: Number, default: 0},
 }, {timestamps: true});
 
 const Post = mongoose.model('Post', postSchema);

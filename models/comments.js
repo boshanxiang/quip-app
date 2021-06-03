@@ -6,7 +6,6 @@ const commentSchema = new mongoose.Schema({
     body: {type: String, required: true},
     img: {type: String},
     parent_ID: {type: String, required: true},
-    comments: [this] //SELF-REFERENTIAL SCHEMA TO BE USED FOR COMMENTS/SUB-POSTS
 }, {timestamps: true});
 
 const Comment = mongoose.model('Comment', commentSchema);
