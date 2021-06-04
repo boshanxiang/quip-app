@@ -12,31 +12,31 @@ Delete/update functionality is limited to the post author.
 
 ## Approach Taken
 
--Separate MongoDB database collections for users, posts, and comments.
--Comments were not embedded in posts--instead, separate documents for each comment.
--Votes are tracked in both the user and post records.
+*Separate MongoDB database collections for users, posts, and comments.
+*Comments were not embedded in posts--instead, separate documents for each comment.
+*Votes are tracked in both the user and post records.
 
 ## Technologies Used
--Node.js
--Express
--EJS
--Mongoose
--Javascript
--HTML
--CSS
--Bootstrap
--Heroku
+*Node.js
+*Express
+*EJS
+*Mongoose
+*Javascript
+*HTML
+*CSS
+*Bootstrap
+*Heroku
 
--mock entries are from Stanford Encyclopedia of Philosophy and Wikipedia.
+*mock entries are from Stanford Encyclopedia of Philosophy and Wikipedia.
 
 ## Additional Features to Build
 
--Ability to infinitely nest comments.
--Functionality to upvote/downvote/bookmark comments.
--Ability to sort posts by net vote score / recency.
--Function to search through posts.
--Group posts by "Community".
--Function to avoid having to reload entire page when updating a partial aspect of the page.
+*Ability to infinitely nest comments.
+*Functionality to upvote/downvote/bookmark comments.
+*Ability to sort posts by net vote score / recency.
+*Function to search through posts.
+*Group posts by "Community".
+*Function to avoid having to reload entire page when updating a partial aspect of the page.
 
 ## Links
 Link to Github repository: https://git.generalassemb.ly/boshanxiang/quip [to be updated to non-Enterprise repo when available]
