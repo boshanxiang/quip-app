@@ -19,17 +19,17 @@
         <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
       </form>
 
-      <div class="text-end">
+      <span class="text-end">
         <% if(currentUser) { %>
           <h5 class="inline">Welcome <%= currentUser.username %> &nbsp;&nbsp; </h5>
           <form action="/sessions?_method=DELETE" method="POST" class="inline">
-            <input type="submit" value="Log Out" class="btn btn-outline-light me-2">
+            <input type="submit" value="Log Out" class="inline btn btn-outline-light me-2">
           </form>
           <% } else { %> 
             <a href="/users/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
             <a href="/users/new"><button type="button" class="btn btn-warning">Sign-up</button></a>
           <% } %>
-      </div>
+      </span>
     </div>
   </div>
 </header>

@@ -36,7 +36,7 @@ body {
 }
 
 .text-end {
-    float: left;
+    /* float: right; */
 }
 
 .comment {

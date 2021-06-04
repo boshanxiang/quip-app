@@ -5,52 +5,54 @@
 </head>
 <body>
     <%- include('./partials/header.ejs') %>
-    <form action="/posts" method="POST">
-        <table style="margin-left:2em">
-            <tr>
-                <th>
+    <div class="comment">
+        <form action="/posts" method="POST">
+            <table style="margin-left:2em">
+                <tr>
+                    <th>
 
-                </th>
-                <th>
-                    <h3> Compose a New Post <h3></h3>
-                </th>
+                    </th>
+                    <th>
+                        <h3> Compose a New Post <h3></h3>
+                    </th>
 
-            </tr>
-            <tr>
-                <td> 
-                    <label for="title">
-                        
-                    </label>
-                </td>
-                <td>
-                    <input type="text" name="title" id="title" placeholder="Post Title" size="80"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="body"></label>    
-                </td>
-                <td>
-                    <textarea id="body" name="body" cols="79" rows ="20" placeholder="Body of post"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="img"></label>        
-                </td>
-                <td>
-                    <input type="img" name="img" id="img" placeholder="Image URL" size="80"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                </td>
-                <td>
-                    <input type="submit" value="Create Post">
-                </td>
-            </tr>
-        </table>
-    </form>
+                </tr>
+                <tr>
+                    <td> 
+                        <label for="title">
+                            
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="title" id="title" placeholder="Post Title" size="80"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="body"></label>    
+                    </td>
+                    <td>
+                        <textarea id="body" name="body" cols="79" rows ="20" placeholder="Body of post"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="img"></label>        
+                    </td>
+                    <td>
+                        <input type="img" name="img" id="img" placeholder="Image URL" size="80"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <input type="submit" value="Create Post">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
     <%- include('./partials/bootstrapJS_Popper.ejs') %>
 </body>
 <footer>
