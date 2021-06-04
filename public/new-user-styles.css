@@ -1,27 +1,23 @@
 /* VARIABLES */
 :root {
-    --header-color: varipp\\\\\\\\\\\\\\\;
-    --button-color: black;
+    --header-color: black
     --line-color: black;
   }
   
   /* GENERAL */
   body {
     background: black;
-    font-family: helvetica;
+    font-family: sans-serif;
   }
   
   /* CONTAINERS */
   .container {
-    width: 80vw;
-    height: 90vw;
+    width: 40vw;
+    height: 40vw;
     margin: 50px auto;
     display: flex;
     border-radius: 10px;
-    box-shadow: 1px 1px 10px #bbb,
-                -1px -1px 10px #bbb,
-                1px -1px 10px #bbb,
-                -1px 1px 10px #bbb;
+
   }
   .sidebar {
     width: 50%;
@@ -41,7 +37,7 @@
   
   /* ETC. DECORATION */
   h1 {
-    font-family: 'Oswald';
+    font-family: sans-serif;
     font-weight: 500;
     color: var(--header-color);
     border-bottom: 2px solid var(--line-color);
@@ -56,12 +52,12 @@
   }
   legend {
     padding: 0px 10px;
-    font-family: 'Oswald';
+    font-family: sans-serif;
     font-weight: 500;
     color: var(--button-color);
   }
   label {
-    font-family: 'Oswald';
+    font-family: sans-serif;
     font-weight: 200;
     color: var(--header-color);
     display: block;
@@ -85,7 +81,7 @@
     height: 50px;
     background: var(--button-color);
     box-shadow: 2px 2px var(--line-color);
-    font-family: 'Oswald';
+    font-family: sans-serif;
     font-size: 1.3em;
     color: whitesmoke;
     border: 0px;
@@ -96,16 +92,3 @@
     background: var(--line-color);
     box-shadow: 2px 2px var(--button-color);
   }
-  
-  /* using max-heights and max-widths to make it so that the user can only resize up to that point */
-  /* textarea {
-    width: 200px;
-    height: 100px;
-    max-width: 400px;
-    max-height: 150px;
-   } */
-  
-   textarea {
-    resize: none;
-    height: 75px;
-   }
