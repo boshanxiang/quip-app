@@ -8,6 +8,7 @@ Users can create and log into their profiles with encrypted passwords.
 Users can create new posts, comment on existing posts, and upvote, downvote, and bookmark posts.
 Profile pages for users show posts created and bookmarked by a given user.
 Net up/downvotes aggregate and are displayed to all users.
+Delete/update functionality is limited to the post author.
 
 ## Approach Taken
 
