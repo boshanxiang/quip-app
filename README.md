@@ -33,6 +33,7 @@ Net up/downvotes aggregate and are displayed to all users.
 -Ability to sort posts by net vote score / recency.
 -Function to search through posts.
 -Group posts by "Community".
+-Function to avoid having to reload entire page when updating a partial aspect of the page.
 
 ## Links
 Link to Github repository: https://git.generalassemb.ly/boshanxiang/quip [to be updated to non-Enterprise repo when available]
