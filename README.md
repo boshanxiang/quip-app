@@ -13,7 +13,7 @@ Delete/update functionality is limited to the post author.
 ## Approach Taken
 
 -Separate MongoDB database collections for users, posts, and comments.
--Comments were not embedded in posts.
+-Comments were not embedded in posts--instead, separate documents for each comment.
 -Votes are tracked in both the user and post records.
 
 ## Technologies Used
