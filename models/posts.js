@@ -7,7 +7,8 @@ const postSchema = new mongoose.Schema({
     body: {type: String, required: true},
     img: {type: String},
     upvotes: {type: Number, default: 0},
-    downvotes: {type: Number, default: 0}
+    downvotes: {type: Number, default: 0},
+    parent_ID: {type: String, default: 0}
 }, {timestamps: true});
 
 const Post = mongoose.model('Post', postSchema);

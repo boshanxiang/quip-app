@@ -33,7 +33,7 @@
             <tr>
             <!-- Downvote BUTTON -->
             <td width="30px">
-                <form action="/users/<%=relPost.id%>/downvote" method="POST" class="interact-btn">
+                <form action="/users/<%=relPost.id%>/downvote/show" method="POST" class="interact-btn">
                     <label id="downvote-btn">
                         <input type="submit" value="Downvote" class="transparent-btn">
                         <% if(currentUser.downvotes.includes(relPost.id)) { %>
@@ -58,7 +58,7 @@
 
             <!-- Upvote BUTTON -->
             <td width="30px">
-                <form action="/users/<%=relPost.id%>/upvote" method="POST" class="interact-btn">
+                <form action="/users/<%=relPost.id%>/upvote/show" method="POST" class="interact-btn">
                     <label id="upvote-btn">
                         <input type="submit" value="Upvote" class="transparent-btn">
                         <% if(currentUser.upvotes.includes(relPost.id)) { %>
@@ -76,7 +76,7 @@
 
             <!-- BOOKMARK BUTTON -->
             <td width="30px">
-                <form action="/users/<%=relPost.id%>/bookmark" method="POST" class="interact-btn">
+                <form action="/users/<%=relPost.id%>/bookmark/show" method="POST" class="interact-btn">
                     <label id="bookmark-btn">
                         <input type="submit" value="Bookmark Post" class="transparent-btn">
                     <% if(currentUser.bookmarks.includes(relPost.id)) { %>

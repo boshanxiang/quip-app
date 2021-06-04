@@ -17,20 +17,7 @@
                 </div>
                 <div class="card-body">
                     <h6 class="card-title"> <a href = "/users/<%= post.user %>"> <%= post.user %> </a> </h6>
-                    <p class="card-text"> <%
-                        let sentenceArr = post.body.split('. ');
-                        let firstTwoSentences = `${sentenceArr[0]}. ${sentenceArr[1]}.`;
-                         %>
-                        <%= firstTwoSentences %> </p>
-                </div>
-                <div class="card-footer text-muted">
-<% if(!currentUser) { %>
-                    <% let netVotes = post.upvotes - post.downvotes %>
-                    <p style="display:inline-block;">
-                        
-                        <%= netVotes %> <% if(netVotes === 1) { %> net vote <% } else {%> net votes <% } %>
-                        <% 
-
+                    <% 
                         // https://stackoverflow.com/questions/25159330/convert-an-iso-date-to-the-date-format-yyyy-mm-dd-in-javascript
                         // https://stackoverflow.com/questions/47607666/how-to-extract-only-time-from-iso-date-format-in-javascript
 
@@ -49,14 +36,37 @@
                             }
 
                             return(`${month}-${day}-${year} at ${hour}:${minute} ${ampm}`);
-                        }
-
-                        if (post.createdAt) { %>
-                            | Created on <%= giveDate(post.createdAt) %>
+                        } %>
+                    <p style="font-style:italic;">
+                        <% if (post.createdAt) { %>
+                            Created on <%= giveDate(post.createdAt) %>
                         <% };
                         if (post.updatedAt && !(giveDate(post.updatedAt) == giveDate(post.createdAt))) { %>
                             | Updated on <%= giveDate(post.updatedAt) %>
                         <% } %>
+                    </p>
+                    
+                    <%
+                        let sentenceArr = post.body.split('. ');
+                        let firstTwoSentences = `${sentenceArr[0]}. ${sentenceArr[1]}.`;
+                         %>
+                        <table>
+                            <tr>
+                                <td>
+                                    <p class="card-text"> <%= firstTwoSentences %> </p>
+                                </td>
+                                <td>
+                                    <img src="<%= post.img %>" style="height:100px;margin:10px;"/>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+                <div class="card-footer text-muted">
+<% if(!currentUser) { %>
+                    <% let netVotes = post.upvotes - post.downvotes %>
+                    <p style="display:inline-block;">
+                        
+                        <%= netVotes %> <% if(netVotes === 1) { %> net vote <% } else {%> net votes <% } %>
                     </p>
 
 <!-- INTERACTION PANEL -->
@@ -95,7 +105,7 @@
             <tr>
             <!-- Downvote BUTTON -->
             <td width="30px">
-                <form action="/users/<%=relPost.id%>/downvote" method="POST" class="interact-btn">
+                <form action="/users/<%=relPost.id%>/downvote/index" method="POST" class="interact-btn">
                     <label id="downvote-btn">
                         <input type="submit" value="Downvote" class="transparent-btn">
                         <% if(currentUser.downvotes.includes(relPost.id)) { %>
@@ -120,7 +130,7 @@
 
             <!-- Upvote BUTTON -->
             <td width="30px">
-                <form action="/users/<%=relPost.id%>/upvote" method="POST" class="interact-btn">
+                <form action="/users/<%=relPost.id%>/upvote/index" method="POST" class="interact-btn">
                     <label id="upvote-btn">
                         <input type="submit" value="Upvote" class="transparent-btn">
                         <% if(currentUser.upvotes.includes(relPost.id)) { %>
@@ -138,7 +148,7 @@
 
             <!-- BOOKMARK BUTTON -->
             <td width="30px">
-                <form action="/users/<%=relPost.id%>/bookmark" method="POST" class="interact-btn">
+                <form action="/users/<%=relPost.id%>/bookmark/index" method="POST" class="interact-btn">
                     <label id="bookmark-btn">
                         <input type="submit" value="Bookmark Post" class="transparent-btn">
                     <% if(currentUser.bookmarks.includes(relPost.id)) { %>
@@ -186,6 +196,7 @@
     </div> 
 
 <% } %>
+
                 </div>
             </div>
             <% } %>

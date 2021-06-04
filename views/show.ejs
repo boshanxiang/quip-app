@@ -28,14 +28,14 @@
                 <h6 class="card-title"> <a href = "/users/<%= post.user %>"> <%= post.user %> </a> </h6>
                 <table>
                     <tr>
-                        <% if(post.img.length > 0) { %> 
-                        <td>
-                            <img src="<%= post.img %>" style="height:150px;width:150px;"/>
-                        </td>
-                        <% } %>
                         <td>
                             <p class="card-text"> <%= post.body %> </p>
                         </td>
+                        <% if(post.img.length > 0) { %> 
+                            <td>
+                                <img src="<%= post.img %>" style="height:400px;margin:10px;"/>
+                            </td>
+                        <% } %>
                     </tr>
                 </table>
             </div>
@@ -80,19 +80,18 @@
 <%- include('./partials/interaction-panel.ejs') %>
 
 
-<div class="comment-container" style="margin-left:2em">
+<div class="comment-container">
     <h3>Comments:</h3>
     <table>
     <% if(foundComments.length > 0) {
         for(let comment of foundComments) { %>
         <div class="comment">
                 <h5><%= comment.title %></h5>
-            <br>
-                <%= comment.user %>
+                <a href="/users/<%= comment.user %>"><%= comment.user %></a>
             <br>
                 <%= comment.body %>
         </div>
-        <br>
+     
     <% }} %>
         </table>
     <%- include('./partials/comments-form.ejs') %>

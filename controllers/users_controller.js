@@ -39,7 +39,7 @@ users.get('/:username', (req, res) => {
                             } else {
                                 res.render('./users/show_user.ejs', {
                                     pageTitle: `Userpage for ${req.params.username}`,
-                                    user: currentUser.username,
+                                    user: req.params.username,
                                     bookmarks: foundBookmarkedPosts,
                                     userPosts: foundUserPosts,
                                     currentUser: req.session.currentUser
@@ -52,7 +52,7 @@ users.get('/:username', (req, res) => {
     })
 })
 
-users.post('/:id/upvote', (req, res) => {
+users.post('/:id/upvote/:index', (req, res) => {
     User.find({username: req.session.currentUser.username}, (error, foundUser) => {
         if(error) {
             console.log(error);
@@ -63,7 +63,12 @@ users.post('/:id/upvote', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    res.redirect(`/posts/${req.params.id}`);
+                        // ***
+                        if(req.params.index === 'index') {
+                            res.redirect('/posts');
+                        } else {
+                            res.redirect(`/posts/${req.params.id}`);
+                        }
                     }
                 });
                 Post.findByIdAndUpdate(req.params.id, {$inc: {upvotes: 1}}, {new: true}, (error, upvotedPost) => {
@@ -92,7 +97,12 @@ users.post('/:id/upvote', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    res.redirect(`/posts/${req.params.id}`);
+                        // ***
+                        if(req.params.index === 'index') {
+                            res.redirect('/posts');
+                        } else {
+                            res.redirect(`/posts/${req.params.id}`);
+                        }
                     }
                 })
 
@@ -103,13 +113,18 @@ users.post('/:id/upvote', (req, res) => {
                 })
 
             } else {
-                res.redirect(`/posts/${req.params.id}`);
+                // ***
+                if(req.params.index === 'index') {
+                    res.redirect('/posts');
+                } else {
+                    res.redirect(`/posts/${req.params.id}`);
+                }
             }
         }
     });
 });
 
-users.post('/:id/downvote', (req, res) => {
+users.post('/:id/downvote/:index', (req, res) => {
     User.find({username: req.session.currentUser.username}, (error, foundUser) => {
         if(error) {
             console.log(error);
@@ -120,8 +135,12 @@ users.post('/:id/downvote', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    res.redirect(`/posts/${req.params.id}`);
-                    }
+                        // ***
+                        if(req.params.index === 'index') {
+                            res.redirect('/posts');
+                        } else {
+                            res.redirect(`/posts/${req.params.id}`);
+                        }                    }
                 });
                 Post.findByIdAndUpdate(req.params.id, {$inc: {downvotes: 1}}, {new: true}, (error, downvotedPost) => {
                         if(error) {
@@ -149,8 +168,12 @@ users.post('/:id/downvote', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    res.redirect(`/posts/${req.params.id}`);
-                    }
+                        // ***
+                        if(req.params.index === 'index') {
+                            res.redirect('/posts');
+                        } else {
+                            res.redirect(`/posts/${req.params.id}`);
+                        }                    }
                 })
 
                 Post.findByIdAndUpdate(req.params.id, {$inc: {downvotes: -1}}, {new: true}, (error, downvotedPost) => {
@@ -160,14 +183,18 @@ users.post('/:id/downvote', (req, res) => {
                 })
 
             } else {
-                res.redirect(`/posts/${req.params.id}`);
-            }
+                // ***
+                if(req.params.index === 'index') {
+                    res.redirect('/posts');
+                } else {
+                    res.redirect(`/posts/${req.params.id}`);
+                }            }
         }
     });
 });
 
 
-users.post('/:id/bookmark', (req, res) => {
+users.post('/:id/bookmark/:index', (req, res) => {
     User.find({username: req.session.currentUser.username}, (error, foundUser) => {
         if(error) {
             console.log(error.message);
@@ -178,8 +205,12 @@ users.post('/:id/bookmark', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    res.redirect(`/posts/${req.params.id}`);
-                    }
+                        // ***
+                        if(req.params.index === 'index') {
+                            res.redirect('/posts');
+                        } else {
+                            res.redirect(`/posts/${req.params.id}`);
+                        }                    }
                 });
             } else {
                 req.session.currentUser.bookmarks.splice(req.session.currentUser.bookmarks.indexOf(req.params.id), 1);
@@ -187,8 +218,12 @@ users.post('/:id/bookmark', (req, res) => {
                     if(error) {
                         console.log(error.message)
                     } else {
-                    res.redirect(`/posts/${req.params.id}`);
-                    }
+                        // ***
+                        if(req.params.index === 'index') {
+                            res.redirect('/posts');
+                        } else {
+                            res.redirect(`/posts/${req.params.id}`);
+                        }                    }
                 });
             }
         }
