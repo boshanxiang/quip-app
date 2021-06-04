@@ -27,6 +27,8 @@ Delete/update functionality is limited to the post author.
 -Bootstrap
 -Heroku
 
+-mock entries are from Stanford Encyclopedia of Philosophy and Wikipedia.
+
 ## Additional Features to Build
 
 -Ability to infinitely nest comments.
