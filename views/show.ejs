@@ -26,11 +26,50 @@
             </div>
             <div class="card-body">
                 <h6 class="card-title"> <a href = "/users/<%= post.user %>"> <%= post.user %> </a> </h6>
-                <p class="card-text"> <%= post.body %> </p>
+                <table>
+                    <tr>
+                        <% if(post.img.length > 0) { %> 
+                        <td>
+                            <img src="<%= post.img %>" style="height:150px;width:150px;"/>
+                        </td>
+                        <% } %>
+                        <td>
+                            <p class="card-text"> <%= post.body %> </p>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="card-footer text-muted">
                 <% let netVotes = post.upvotes - post.downvotes %>
-                <%= netVotes %> votes
+                <%= netVotes %> votes |  Created on <%= post.Date %>
+                <% 
+
+                // https://stackoverflow.com/questions/25159330/convert-an-iso-date-to-the-date-format-yyyy-mm-dd-in-javascript
+                // https://stackoverflow.com/questions/47607666/how-to-extract-only-time-from-iso-date-format-in-javascript
+
+                const giveDate = (isoDate) => {
+
+                    let date = new Date(isoDate);
+                    let year = date.getFullYear();
+                    let month = date.getMonth()+1;
+                    let day = date.getDate();
+                    let hour = date.getUTCHours();
+                    let minute = date.getUTCMinutes();
+                    let ampm = 'PM'
+                    
+                    if(hour < 12) {
+                        ampm = 'AM'
+                    }
+
+                    return(`${month}-${day}-${year} at ${hour}:${minute} ${ampm}`);
+                }
+
+                if (post.createdAt) { %>
+                    | Created on <%= giveDate(post.createdAt) %>
+                <% };
+                if (post.updatedAt && !(giveDate(post.updatedAt) == giveDate(post.createdAt))) { %>
+                    | Updated on <%= giveDate(post.updatedAt) %>
+                <% } %>
             </div>
         </div>
 

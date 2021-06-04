@@ -14,3 +14,7 @@ body {
 .transparent-btn {
     display:none;
 }
+
+.inline {
+    display:inline-block;
+}

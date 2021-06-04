@@ -24,98 +24,165 @@
                         <%= firstTwoSentences %> </p>
                 </div>
                 <div class="card-footer text-muted">
+<% if(!currentUser) { %>
+                    <% let netVotes = post.upvotes - post.downvotes %>
+                    <p style="display:inline-block;">
+                        
+                        <%= netVotes %> <% if(netVotes === 1) { %> net vote <% } else {%> net votes <% } %>
+                        <% 
+
+                        // https://stackoverflow.com/questions/25159330/convert-an-iso-date-to-the-date-format-yyyy-mm-dd-in-javascript
+                        // https://stackoverflow.com/questions/47607666/how-to-extract-only-time-from-iso-date-format-in-javascript
+
+                        const giveDate = (isoDate) => {
+
+                            let date = new Date(isoDate);
+                            let year = date.getFullYear();
+                            let month = date.getMonth()+1;
+                            let day = date.getDate();
+                            let hour = date.getUTCHours();
+                            let minute = date.getUTCMinutes();
+                            let ampm = 'PM'
+                            
+                            if(hour < 12) {
+                                ampm = 'AM'
+                            }
+
+                            return(`${month}-${day}-${year} at ${hour}:${minute} ${ampm}`);
+                        }
+
+                        if (post.createdAt) { %>
+                            | Created on <%= giveDate(post.createdAt) %>
+                        <% };
+                        if (post.updatedAt && !(giveDate(post.updatedAt) == giveDate(post.createdAt))) { %>
+                            | Updated on <%= giveDate(post.updatedAt) %>
+                        <% } %>
+                    </p>
+
 <!-- INTERACTION PANEL -->
 
-<% if(currentUser) { %>
-    
-    <div class="interact-panel" style="margin-left:2em;display:inline-block;">
+<% } else if(currentUser) {
+    let relPost = post; %>
+    <style>
+        #delete-btn:hover {
+            color: rgb(205, 0, 0);
+        }
+
+        #update-btn:hover {
+            color: blue;
+        }
+
+        #upvote-btn:hover {
+            color: green;
+        }
+
+        #downvote-btn:hover {
+            color: red;
+        }
+
+        #bookmark-btn:hover {
+            color: yellow;
+        }
+
+        #net-vote:hover {
+            color: orange;
+        }
+
+    </style>
+
+    <div class="interact-panel" style="margin-left:2em;margin-bottom:0;padding-bottom:0;">
         <table style="table-layout:fixed;">
             <tr>
-            <!-- Upvote BUTTON -->
+            <!-- Downvote BUTTON -->
             <td width="30px">
-            <form action="/users/<%=post.id%>/downvote/index" method="POST" class="interact-btn">
-                <label>
-                    <input type="submit" value="Downvote" class="transparent-btn">
-                    <% if(currentUser.downvotes.includes(post.id)) { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
-                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z"/>
-                        </svg>
-                    <% } else { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                        </svg>
-                    <% } %>
-                </label>
-            </form>
+                <form action="/users/<%=relPost.id%>/downvote" method="POST" class="interact-btn">
+                    <label id="downvote-btn">
+                        <input type="submit" value="Downvote" class="transparent-btn">
+                        <% if(currentUser.downvotes.includes(relPost.id)) { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="color:red;" class="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
+                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z"/>
+                            </svg>
+                        <% } else { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                            </svg>
+                        <% } %>
+                    </label>
+                </form>
             
             </td>
             <!--Net Vote Display-->
             <td width="35px" style="text-align:right;">
-            <p class="interact-btn" style="font-weight:bold"><% let netVotes = (post.upvotes - post.downvotes) %>
-                <%= netVotes %> &nbsp;&nbsp;</p>
+                <p id="net-vote" class="interact-btn" style="font-weight:bold"><% let netVotes = (relPost.upvotes - relPost.downvotes) %>
+                    <%= netVotes %> &nbsp;&nbsp;
+                </p>
             </td>
 
-            <!-- Downvote BUTTON -->
+            <!-- Upvote BUTTON -->
             <td width="30px">
-                <form action="/users/<%=post.id%>/upvote/index" method="POST" class="interact-btn">
-                <label>
-                    <input type="submit" value="Upvote" class="transparent-btn">
-                    <% if(currentUser.upvotes.includes(post.id)) { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="color:rgb(0, 72, 0);" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
-                            <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/>
-                        </svg>
-                    <% } else { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
-                        </svg>  
-                    <% } %>
-                </label>
-            </form>
+                <form action="/users/<%=relPost.id%>/upvote" method="POST" class="interact-btn">
+                    <label id="upvote-btn">
+                        <input type="submit" value="Upvote" class="transparent-btn">
+                        <% if(currentUser.upvotes.includes(relPost.id)) { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="color:green;background-color:greenyellow" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+                                <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/>
+                            </svg>
+                        <% } else { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                            </svg>  
+                        <% } %>
+                    </label>
+                </form>
             </td>
 
             <!-- BOOKMARK BUTTON -->
             <td width="30px">
-            <form action="/users/<%=post.id%>/bookmark/index" method="POST" class="interact-btn">
-                <label>
-                    <input type="submit" value="Bookmark Post" class="transparent-btn">
-                <% if(currentUser.bookmarks.includes(post.id)) { %>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="color:gold;" class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">
-                        <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v13.5zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
-                    </svg>
-                <% } else { %>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                <form action="/users/<%=relPost.id%>/bookmark" method="POST" class="interact-btn">
+                    <label id="bookmark-btn">
+                        <input type="submit" value="Bookmark Post" class="transparent-btn">
+                    <% if(currentUser.bookmarks.includes(relPost.id)) { %>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="color:gold;" class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">
+                            <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v13.5zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
                         </svg>
-                <% } %>
-                </label>
-            </form>
+                    <% } else { %>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                            </svg>
+                    <% } %>
+                    </label>
+                </form>
             </td>
-        </tr> </table>
-
-            <!-- DELETE BUTTON -->
-            <% if(currentUser.username === post.user) { %>
-            <br>
-            <form action="/posts/<%=post.id%>?_method=DELETE" method="POST" class="interact-btn">
-                <label>
-                    <input type="submit" value="Delete Post" class="transparent-btn">
-                    Delete Post
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
-                    </svg>
-                </label>
-            </form>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+    <!-- DELETE BUTTON -->
+    <% if(currentUser.username === relPost.user) { %>
+            <td>
+                &nbsp;&nbsp;
+                <form action="/posts/<%=relPost.id%>?_method=DELETE" method="POST" class="interact-btn">
+                    <label id="delete-btn">
+                        <input type="submit" value="Delete Post" class="transparent-btn">
+                        Delete Post
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                        </svg>
+                    </label>
+                </form>
+            </td>
             <!-- UPDATE BUTTON -->
-            <form action="/posts/<%=post.id%>/edit" method="GET" class="interact-btn">
-                <label>
-                    <input type="submit" value="Update Post" class="transparent-btn">
-                    Update Post
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wrench" viewBox="0 0 16 16">
-                        <path d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019.528.026.287.445.445.287.026.529L15 13l-.242.471-.026.529-.445.287-.287.445-.529.026L13 15l-.471-.242-.529-.026-.287-.445-.445-.287-.026-.529L11 13l.242-.471.026-.529.445-.287.287-.445.529-.026L13 11l.471.242z"/>
-                    </svg>
-                </label>
-            </form>
+            <td>
+                &nbsp;&nbsp;
+                <form action="/posts/<%=relPost.id%>/edit" method="GET" class="interact-btn">
+                    <label id="update-btn">
+                        <input type="submit" value="Update Post" class="transparent-btn">
+                        Update Post
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wrench" viewBox="0 0 16 16">
+                            <path d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019.528.026.287.445.445.287.026.529L15 13l-.242.471-.026.529-.445.287-.287.445-.529.026L13 15l-.471-.242-.529-.026-.287-.445-.445-.287-.026-.529L11 13l.242-.471.026-.529.445-.287.287-.445.529-.026L13 11l.471.242z"/>
+                        </svg>
+                    </label>
+                </form>
+            </td>
             <% } %>
+        </tr>
+        </table>
     </div> 
 
 <% } %>

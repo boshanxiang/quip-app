@@ -9,6 +9,9 @@
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="/posts" class="nav-link px-2 text-secondary">Home</a></li>
         <li><a href="/posts/new" class="nav-link px-2 text-white">New Post</a></li>
+        <% if(currentUser) { %>
+        <li><a href="/users/<%= currentUser.username %>" class="nav-link px-2 text-white">My Profile</a></li>
+        <% } %>
         <li><a href="#" class="nav-link px-2 text-white">About</a></li>
       </ul>
 
@@ -18,8 +21,8 @@
 
       <div class="text-end">
         <% if(currentUser) { %>
-          Welcome <%= currentUser.username %>
-          <form action="/sessions?_method=DELETE" method="POST">
+          <h5 class="inline">Welcome <%= currentUser.username %> &nbsp;&nbsp; </h5>
+          <form action="/sessions?_method=DELETE" method="POST" class="inline">
             <input type="submit" value="Log Out" class="btn btn-outline-light me-2">
           </form>
           <% } else { %> 

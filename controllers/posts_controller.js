@@ -39,7 +39,7 @@
     //JSON ROUTE
         router.get('/json', (req, res) => {
             Post.find({}, (error, allPosts) => {
-                res.send(allPosts);
+                res.redirect('/posts');
             });
         });
 

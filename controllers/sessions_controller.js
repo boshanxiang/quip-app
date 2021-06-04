@@ -9,7 +9,7 @@ sessions.get('/new', (req, res) => {
 
 sessions.post('/', (req, res) => {
     User.findOne({username: req.body.username}, (error, foundUser) => {
-        if(err) {
+        if(error) {
             console.log(error.message);
             res.send('<a href="/users/login"> Error, please try again. </a>');
         } else if (!foundUser) {

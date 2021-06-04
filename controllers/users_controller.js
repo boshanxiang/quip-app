@@ -39,6 +39,7 @@ users.get('/:username', (req, res) => {
                             } else {
                                 res.render('./users/show_user.ejs', {
                                     pageTitle: `Userpage for ${req.params.username}`,
+                                    user: currentUser.username,
                                     bookmarks: foundBookmarkedPosts,
                                     userPosts: foundUserPosts,
                                     currentUser: req.session.currentUser
@@ -84,6 +85,23 @@ users.post('/:id/upvote', (req, res) => {
                     })
                 }
 
+            } else if(foundUser[0].upvotes.some((element) => (element == req.params.id))) {
+                req.session.currentUser.upvotes.splice(req.session.currentUser.upvotes.indexOf(req.params.id), 1);
+
+                User.findOneAndUpdate({username: req.session.currentUser.username}, {$pull: {upvotes: {$in: [req.params.id]}}}, {new: true}, (error, updatedUser) => {
+                    if(error) {
+                        console.log(error.message)
+                    } else {
+                    res.redirect(`/posts/${req.params.id}`);
+                    }
+                })
+
+                Post.findByIdAndUpdate(req.params.id, {$inc: {upvotes: -1}}, {new: true}, (error, upvotedPost) => {
+                    if(error) {
+                        console.log(error.message)
+                    }
+                })
+
             } else {
                 res.redirect(`/posts/${req.params.id}`);
             }
@@ -114,7 +132,7 @@ users.post('/:id/downvote', (req, res) => {
                     req.session.currentUser.upvotes.splice(req.session.currentUser.upvotes.indexOf(req.params.id), 1);
                     User.findOneAndUpdate({username: req.session.currentUser.username}, {$pull: {upvotes: {$in: [req.params.id]}}}, {new: true}, (error, updatedUser) => {
                         if(error) {
-                            console.log(error.message)
+                            console.log(error.message);
                         }
                     });
                     Post.findByIdAndUpdate(req.params.id, {$inc: {upvotes: -1}}, {new: true}, (error, upvotedPost) => {
@@ -124,12 +142,30 @@ users.post('/:id/downvote', (req, res) => {
                     })
                 }
 
+            } else if(foundUser[0].downvotes.some((element) => (element == req.params.id))) {
+                req.session.currentUser.downvotes.splice(req.session.currentUser.downvotes.indexOf(req.params.id), 1);
+
+                User.findOneAndUpdate({username: req.session.currentUser.username}, {$pull: {downvotes: {$in: [req.params.id]}}}, {new: true}, (error, updatedUser) => {
+                    if(error) {
+                        console.log(error.message)
+                    } else {
+                    res.redirect(`/posts/${req.params.id}`);
+                    }
+                })
+
+                Post.findByIdAndUpdate(req.params.id, {$inc: {downvotes: -1}}, {new: true}, (error, downvotedPost) => {
+                    if(error) {
+                        console.log(error.message)
+                    }
+                })
+
             } else {
                 res.redirect(`/posts/${req.params.id}`);
             }
         }
     });
 });
+
 
 users.post('/:id/bookmark', (req, res) => {
     User.find({username: req.session.currentUser.username}, (error, foundUser) => {
@@ -162,6 +198,10 @@ users.post('/:id/bookmark', (req, res) => {
 users.post('/', (req, res) => {
     console.log(req.body);
     req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+    req.body.upvotes = [];
+    req.body.downvotes = [];
+    req.body.bookmarks = [];
+    req.body.userPosts = [];
     User.create(req.body, (err, createdUser) => {
         console.log('User is created', createdUser);
         req.session.currentUser = createdUser;
