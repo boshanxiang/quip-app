@@ -6,7 +6,6 @@
 //MODELS IMPORT
     const Post = require('../models/posts.js');
     const seedPosts = require('../models/seed_posts.js');
-    const seedUsers = require('../models/seed_users.js');
     const Comment = require('../models/comments.js');
     const User = require('../models/users.js');
 
@@ -47,7 +46,6 @@
         router.get('/seed', async(req, res) => {
             try{
                 const plantPosts = await Post.create(seedPosts);
-                const plantUsers = await User.create(seedUsers)
                 res.redirect('/posts');
             } catch (err) {
                 res.send(err.message);
