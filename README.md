@@ -12,6 +12,7 @@ Delete/update functionality is limited to the post author.
 
 ## Approach Taken
 
+*Adhered to the Models, Views, Controllers file structure.
 *Separate MongoDB database collections for users, posts, and comments.
 *Comments were not embedded in posts--instead, separate documents for each comment.
 *Votes are tracked in both the user and post records.
