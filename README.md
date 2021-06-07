@@ -18,14 +18,19 @@ Delete/update functionality is limited to the post author.
 *Votes are tracked in both the user and post records.
 
 ## Technologies Used
+The following technologies were used:
 *Node.js
+*DotEnv
 *Express
+*Express-Session
 *EJS
+*Method-Override
 *Mongoose
+*MongoDB
 *Javascript
 *HTML
 *CSS
-*Bootstrap
+*Bootstrap / Bootstrap Icons
 *Heroku
 
 *mock entries are from Stanford Encyclopedia of Philosophy and Wikipedia.
