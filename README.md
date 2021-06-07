@@ -16,6 +16,8 @@ Delete/update functionality is limited to the post author.
 *Separate MongoDB database collections for users, posts, and comments.
 *Comments were not embedded in posts--instead, separate documents for each comment.
 *Votes are tracked in both the user and post records.
+*Users when logged in can comment on posts, upvote, downvote, and bookmark posts.
+*Interactivity panel (voting and bookmark panel) functionality not extended to comments.
 
 ## Technologies Used
 The following technologies were used:
